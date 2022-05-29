@@ -1,0 +1,149 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Century Gothic;
+
+}
+
+header{
+    background-image: url(background1.jpg);
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+     
+}
+
+ul{
+    float: right;
+    list-style-type: none;
+    margin-top:25px ;
+
+}
+
+ul li{
+    display: inline-block;
+}
+
+ul li a{
+    text-decoration: none;
+    color: rgb(21, 2, 54);
+    padding : 1px 20px;
+    font-weight: 800;
+    font-size: 20;
+    border: 1px solid transparent;
+    transition: 0.5s ease;
+
+}
+ul li a:hover{
+    background-color: rgb(32, 4, 98);
+    color: white;
+    
+}
+
+ul li.active a{
+
+    background-color: rgb(32, 4, 98);
+    color: white;
+
+}
+
+
+.logo img{
+    float: left;
+    width:300px;
+    height: auto;
+    margin-top:12px
+    
+    
+}
+
+.main{
+    max-width: 1200px;
+    margin:auto
+}
+
+ul li.active a{
+
+    background-color: rgb(32, 4, 98);
+    color: white;
+
+}
+
+.title{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    
+}
+
+
+
+.title2 {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 50px;
+    
+}
+
+.button{
+    position: absolute;
+    top: 80%;
+    
+    font-size: 40px;
+    left: 40%;
+    font-weight: 600;
+    transform: translate(-50%,-50%);
+
+}
+.button2{
+    position: absolute;
+    font-size: 40px;
+    font-weight: 600;
+    top: 80%;
+    left: 61%;
+    transform: translate(-50%,-50%);
+
+}
+
+.btn{
+    padding : 10px 20px;
+    border: 1px solid transparent ;
+    color: black;
+    text-decoration: none;
+    transition: 0.5s ease;
+
+}
+
+.btn:hover{
+    background-color: rgb(32, 4, 98);
+    color: white;
+}
+
+.selection{
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    
+}
+
+.media img{
+    position: absolute;
+    left: 95%;
+    width:36px;
+    top: 40%;
+    height: auto;
+    
+}
+
+.media2 img{
+    position: absolute;
+    left: 94.6%;
+    width:50px;
+    top: 50%;
+    height: auto;
+    
+}

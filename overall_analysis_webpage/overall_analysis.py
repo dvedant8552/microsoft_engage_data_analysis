@@ -281,22 +281,28 @@ if basis=="Popular specification combinations I" :
     
     with rc :
         
-        df=car[['sale_quantity']]
-        df['mileage']=pd.cut(x=car['ARAI_Certified_Mileage'], bins=[0,12,24,50], labels=['Low Mileage','Medium mileage','High Mileage'])
+        car_copy=car.copy()
+        condition=car_copy.ARAI_Certified_Mileage.isna()
+        car_copy=car_copy[~condition]
+        car_copy=car_copy.reset_index(drop=True)
+        
+        
+        df=car_copy[['sale_quantity']]
+        df['mileage']=pd.cut(x=car_copy['ARAI_Certified_Mileage'], bins=[0,12,24,50], labels=['Low Mileage','Medium mileage','High Mileage'])
         df['mileage']=df.mileage.astype(str)
-        df['specification']=df['mileage']+" "+car['Body_Type']
+        df['specification']=df['mileage']+" "+car_copy['Body_Type']
             
         df=df.groupby('specification')[['sale_quantity']].sum().sort_values('sale_quantity',ascending=False).head(10)
-        plt.figure(figsize=(12,11))
+        plt.figure(figsize=(18,15))
         sns.set(font_scale=2)
         sns.barplot(x=df.sale_quantity, y=df.index)
         plt.title('Overall : Salewise Top Popular Specifications (Mileage and Body Type)')
         plt.ylabel(None);
         plt.xlabel('Units sold(in thousands)');
-        plt.legend(np.round(df.sale_quantity,2),fontsize=20);  
+        plt.legend(np.round(df.sale_quantity,2),fontsize=20);
+        
         st.pyplot()
-    
-                
+                        
         
         
         

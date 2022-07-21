@@ -6,9 +6,9 @@ Created on Fri May 27 15:03:27 2022
 """
 
 import streamlit as st
-#import plotly.express as px
 import pandas as pd
 import numpy as np
+import typing_extensions
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -36,11 +36,18 @@ make=st.sidebar.selectbox("", car.Make.unique())
 hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;}
+            #background-color: white;
             footer {visibility: hidden;}
             header {visibility: hidden;}
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
+
+
+
+
+
+
 
 st.title(":bar_chart:Analysis of "+make+" company")
 st.markdown("***")
@@ -65,212 +72,7 @@ list_of_basis=["Model wise Sales","Body Type wise sales", "Month wise sales","Po
 st.sidebar.header("Select the Basis")
 basis=st.sidebar.radio("",list_of_basis)
 
-# streamlit run tmp.py
-    
-# Writing functions for various basis of analysis
-# for model wise sale quantity of a company
-# def quant_vs_model(x) :
-#     model=car[car.Make==x]
-#     model_wise_sale=model.groupby('Model')[['sale_quantity']].sum().sort_values('sale_quantity',ascending=False)
-#     plt.xticks(rotation=75)
-#     sns.set(font_scale=1.5)
-#     plt.title('Sale quantity vs models of '+x)
-#     sns.barplot(model_wise_sale.sale_quantity.index,model_wise_sale.sale_quantity)
 
-# # for model wise rvenue of the company
-# def revenue_vs_model(x):
-#     model=car[car.Make==x]
-#     model_wise_sale=model.groupby('Model')[['Total_revenue']].sum().sort_values('Total_revenue',ascending=False)
-    
-#     plt.figure(figsize=(12,6))
-#     plt.xticks(rotation=75)
-#     sns.set(font_scale=1.5)
-#     plt.title('Total revenue of '+x+' vs models of '+x)
-#     sns.barplot(model_wise_sale.Total_revenue.index,model_wise_sale.Total_revenue)
-
-# # Body Type wise sale quantity of a company
-# def body_vs_quant(x):
-#     model=car[car.Make==x]
-#     body_wise_sale=model.groupby('Body_Type')[['sale_quantity']].sum().sort_values('sale_quantity',ascending=False)
-#     plt.figure(figsize=(12,6))
-#     sns.barplot(x=body_wise_sale.sale_quantity, y=body_wise_sale.index)
-#     plt.title('Body Type vs Sale Quantity of '+x)
-#     plt.ylabel(None);
-#     plt.legend(body_wise_sale.sale_quantity);
-    
-# # Body Type wise Total Revenue of a company
-# def body_vs_revenue(make):
-#     model=car[car.Make==make]
-#     body_wise_sale=model.groupby('Body_Type')[['Total_revenue']].sum().sort_values('Total_revenue',ascending=False)
-#     plt.figure(figsize=(12,6))
-#     sns.barplot(x=body_wise_sale.Total_revenue, y=body_wise_sale.index)
-#     plt.title('Body Type vs Total Revenue of '+ make +' company')
-#     plt.ylabel(None);
-#     plt.legend(body_wise_sale.Total_revenue);
-    
-# # Month Wise sale quantity of a company
-# def month_vs_quant(x):
-#     model=car[car.Make==x]
-#     month_wise_sale=model.groupby('sale_month')[['sale_quantity']].sum()
-#     plt.figure(figsize=(12,6))
-#     sns.barplot(x=month_wise_sale.index, y=month_wise_sale.sale_quantity)
-#     plt.title('Month vs Sale Quantity of '+x+' company')
-#     plt.ylabel('Sale Quantity');
-
-# # Month Wise Total Revenue of a company
-
-# def month_vs_revenue(x):
-#     model=car[car.Make==x]
-#     month_wise_sale=model.groupby('sale_month')[['Total_revenue']].sum()
-#     plt.figure(figsize=(12,6))
-#     sns.barplot(x=month_wise_sale.index, y=month_wise_sale.Total_revenue)
-#     plt.title('Month vs Total revenue of '+x+' company')
-#     plt.ylabel('Total Revenue');
-
-# # Popular Specification 
-# def popular_specification_type_emission_fueltype(make) :
-#     model=car[car.Make==make]
-#     df=model[['sale_quantity']]
-#     df['specification']=model['Type']+" "+model['Emission_Norm']+ " "+model['Fuel_Type']
-#     df=df.groupby('specification')[['sale_quantity']].sum().sort_values('sale_quantity',ascending=False).head(10)
-#     plt.figure(figsize=(12,8))
-#     sns.barplot(x=df.sale_quantity, y=df.index)
-#     plt.title('Top Popular Specifications vs Sale of '+ make +' company')
-#     plt.ylabel(None);
-#     plt.legend(df.sale_quantity);
-
-# def popular_specification_mileage_bodytype(make):
-#     model=car[car.Make==make]
-#     df=model[['sale_quantity']]
-#     df['mileage']=pd.cut(x=model['ARAI_Certified_Mileage'], bins=[0,12,24,40], labels=['Low Mileage','Medium mileage','High Mileage'])
-#     df['mileage']=df.mileage.astype(str)
-#     df['specification']=df['mileage']+" "+model['Body_Type']
-    
-#     df=df.groupby('specification')[['sale_quantity']].sum().sort_values('sale_quantity',ascending=False).head(10)
-#     plt.figure(figsize=(18,12))
-#     sns.set(font_scale=2.5)
-#     sns.barplot(x=df.sale_quantity, y=df.index)
-#     plt.title('Top Popular Specifications vs Sale of '+ make +' company')
-    
-#     plt.ylabel(None);
-#     plt.legend(df.sale_quantity,fontsize=20);
-
-
-# def popular_specification_price_fueltype(make):
-#     model=car[car.Make==make]
-#     df=model[['sale_quantity']]
-#     df['price_range']=pd.cut(x=model['Ex_Showroom_Price'], bins=[0,2e6,5e6,model.Ex_Showroom_Price.max()+2e7], labels=['Low Price','Medium Price','High Price'])
-#     df['price_range']=df.price_range.astype(str)
-#     df['specification']=df['price_range']+" "+model['Fuel_Type']
-    
-#     df=df.groupby('specification')[['sale_quantity']].sum().sort_values('sale_quantity',ascending=False).head(10)
-#     plt.figure(figsize=(12,8))
-#     sns.set(font_scale=2)
-#     sns.barplot(x=df.sale_quantity, y=df.index)
-#     plt.title('Top Popular Specifications vs Sale of '+ make +' company')
-#     plt.ylabel(None);
-#     plt.legend(df.sale_quantity,fontsize=20);
-
-
-    
-
-
-# def sale_quantity_vs_price(make) :
-#     pd.options.mode.chained_assignment = None
-#     model=car[car.Make==make]
-#     mx=model['Ex_Showroom_Price'].max()
-#     model['Price_Range']=pd.cut(x=model['Ex_Showroom_Price'], bins=[0,1.5e6,5e6,mx+2e7], labels=['Low Price Range','Medium Price Range','High Price Range'])
-#     fin=model.groupby('Price_Range')[['sale_quantity']].sum()   
-#     y = []
-#     y = np.array(fin['sale_quantity'])
-#     x=np.array(fin.index)
-#     percent = 100.*y/y.sum()
-#     colors=sns.color_palette('muted')
-#     sns.set(font_scale=0.8)
-#     patches, texts = plt.pie(y,startangle=90, radius=0.85, colors=colors)
-#     plt.title('Sale quantity vs Price Range of '+make+' Company')
-        
-#     labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, percent)]
-
-#     plt.legend(patches, labels, loc='upper center',bbox_to_anchor=(-0.1, 1.), fontsize=8)
-
-# def fueltype_vs_sale(make) :
-#     model=car[car.Make==make]
-#     y = []
-#     fin=model.groupby('Fuel_Type')[['sale_quantity']].sum()
-#     y = np.array(fin['sale_quantity'])
-#     x=np.array(fin.index)
-#     percent = 100.*y/y.sum()
-#     sns.set(font_scale=0.8)
-#     colors=sns.color_palette('muted')
-#     patches, texts = plt.pie(y,startangle=90, radius=0.9, colors=colors)
-#     plt.title('Fuel Type vs sale quantity of '+make+' company')
-#     labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, percent)]
-
-#     plt.legend(patches, labels, loc='best',bbox_to_anchor=(-0.1, 1.), fontsize=7)
-
-
-# # others
-# # fuel types vs number of models pie chart
-# def fuel_type_vs_model(make) :
-#     model=car[car.Make==make]
-#     y = []
-#     y = np.array(model['Fuel_Type'].value_counts())
-#     x=np.array(model['Fuel_Type'].unique())
-#     percent = 100.*y/y.sum()
-#     sns.set(font_scale=0.75)
-#     patches, texts = plt.pie(y,startangle=90, radius=0.8)
-#     plt.title('Fuel Type models of '+make+' company')
-        
-#     labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, percent)]
-
-#     plt.legend(patches, labels, loc='upper center',bbox_to_anchor=(-0.1, 1.), fontsize=8)    
-
-# # Emission Norm vs number of models pie chart
-# def emission_norm_vs_model(make) :
-#     model=car[car.Make==make]
-#     y = []
-#     y = np.array(model['Emission_Norm'].value_counts())
-#     x=np.array(model['Emission_Norm'].unique())
-#     percent = 100.*y/y.sum()
-#     sns.set(font_scale=0.8)
-#     patches, texts = plt.pie(y,startangle=90, radius=0.87)
-#     plt.title('Emission Norm Types models of '+make+' company')
-        
-#     labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, percent)]
-
-#     plt.legend(patches, labels, loc='upper center',bbox_to_anchor=(-0.1, 1.), fontsize=8)
-
-# # Driving Type vs number of models of company
-# def type_vs_model(make) :
-#     model=car[car.Make==make]
-#     y = []
-#     y = np.array(model['Type'].value_counts())
-#     x=np.array(model['Type'].unique())
-#     sns.set(font_scale=0.85)
-#     percent = 100.*y/y.sum()
-#     patches, texts = plt.pie(y,startangle=90, radius=1.0)
-#     plt.title('Number of Models of specific type of '+make+' company')
-        
-#     labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, percent)]
-
-#     plt.legend(patches, labels, loc='upper center',bbox_to_anchor=(-0.1, 1.), fontsize=8)
-
-# # Driving Type vs sales of company
-# def type_vs_sale(make) :
-#     model=car[car.Make==make]
-#     y = []
-#     fin=model.groupby('Type')[['sale_quantity']].sum()
-#     y = np.array(fin['sale_quantity'])
-#     x=np.array(fin.index)
-#     percent = 100.*y/y.sum()
-#     sns.set(font_scale=0.9)
-#     patches, texts = plt.pie(y,startangle=90, radius=1.1)
-#     plt.title('Type of car vs sale of '+make+' company')
-        
-#     labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, percent)]
-
-#     plt.legend(patches, labels, loc='best',bbox_to_anchor=(-0.1, 1.), fontsize=9)
 
   
 def quant_vs_model(x) :
@@ -317,17 +119,16 @@ def body_vs_revenue(make):
 
 def fuel_type_vs_model(make) :
     model=car[car.Make==make]
-    y = []
     f=model['Fuel_Type'].value_counts()
     y = np.array(f)
     x=np.array(f.index)
     percent = 100.*y/y.sum()
-    patches, texts = plt.pie(y,startangle=90, radius=1.2)
+    plt.pie(y,startangle=90, radius=1.2)
     plt.title(make+ ' : Composition of various fuel consuming cars')
         
     labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, percent)]
 
-    plt.legend(patches, labels, loc='best',bbox_to_anchor=(-0.1, 1.), fontsize=16)
+    plt.legend(labels, loc='best',bbox_to_anchor=(0, 1.), fontsize=16)
 
 
 
@@ -353,31 +154,29 @@ def month_vs_revenue(x):
     
 def emission_norm_vs_model(make) :
     model=car[car.Make==make]
-    y = []
     f=model['Emission_Norm'].value_counts()
     y = np.array(f)
     x=np.array(f.index)
     percent = 100.*y/y.sum()
-    patches, texts = plt.pie(y,startangle=90, radius=1.2)
+    plt.pie(y,startangle=90, radius=1.2)
     plt.title(make + ' : Composition of various Emission Norm Types')
         
     labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, percent)]
 
-    plt.legend(patches, labels, loc='best',bbox_to_anchor=(-0.1, 1.), fontsize=16)
+    plt.legend(labels, loc='best',bbox_to_anchor=(0, 1.), fontsize=16)
 
 def emissionnorm_vs_sale(make) :
     model=car[car.Make==make]
-    y = []
     fin=model.groupby('Emission_Norm')[['sale_quantity']].sum()
     y = np.array(fin['sale_quantity'])
     x=np.array(fin.index)
     percent = 100.*y/y.sum()
-    patches, texts = plt.pie(y,startangle=90, radius=1.2)
+    plt.pie(y,startangle=90, radius=1.2)
     plt.title(make + ' : Composition of Sales for different Emission Norms')
         
     labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, percent)]
 
-    plt.legend(patches, labels, loc='best',bbox_to_anchor=(-0.1, 1.), fontsize=16)
+    plt.legend(patches, labels, loc='best',bbox_to_anchor=(0, 1.), fontsize=16)
 
 def sale_quantity_vs_price(make) :
     pd.options.mode.chained_assignment = None
@@ -388,62 +187,58 @@ def sale_quantity_vs_price(make) :
     mx=max(mx,6)
     model['Price_Range']=pd.cut(x=model['Ex_Showroom_Price'], bins=[0,1.5,5,mx+2], labels=['Low Price Range','Medium Price Range','High Price Range'])
     fin=model.groupby('Price_Range')[['sale_quantity']].sum()   
-    y = []
     y = np.array(fin['sale_quantity'])
     x=np.array(fin.index)
     percent = 100.*y/y.sum()
-    patches, texts = plt.pie(y,startangle=90, radius=1.2)
+    plt.pie(y,startangle=90, radius=1.2)
     plt.title( make + ' : Composition of Sales for different price segments')
         
     labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, percent)]
 
-    plt.legend(patches, labels, loc='best',bbox_to_anchor=(-0.1, 1.), fontsize=30)
+    plt.legend(labels, loc='best',bbox_to_anchor=(0, 1.), fontsize=30)
 
 def fueltype_vs_sale(make) :
     model=car[car.Make==make]
-    y = []
     fin=model.groupby('Fuel_Type')[['sale_quantity']].sum()
     plt.figure(figsize=(10,3))
     y = np.array(fin['sale_quantity'])
     x=np.array(fin.index)
     percent = 100.*y/y.sum()
     sns.set(font_scale=1)
-    patches, texts = plt.pie(y,startangle=90, radius=1.2)
+    plt.pie(y,startangle=90, radius=1.2)
     plt.title(make + ' : Distribution of Sales for different fuel types')
         
     labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, percent)]
 
-    plt.legend(patches, labels, loc='best',bbox_to_anchor=(-0.1, 1.), fontsize=10)
+    plt.legend(labels, loc='best',bbox_to_anchor=(0, 1.), fontsize=10)
 
 
 def type_vs_sale(make) :
     model=car[car.Make==make]
-    y = []
     fin=model.groupby('Type')[['sale_quantity']].sum()
     y = np.array(fin['sale_quantity'])
     x=np.array(fin.index)
     percent = 100.*y/y.sum()
-    patches, texts = plt.pie(y,startangle=90, radius=1.3)
+    plt.pie(y,startangle=90, radius=1.3)
     plt.title(make + ' : Composition of Sales for different transmission types')
         
     labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, percent)]
 
-    plt.legend(patches, labels, loc='best',bbox_to_anchor=(-0.1, 1.), fontsize=16)
+    plt.legend(labels, loc='best',bbox_to_anchor=(0, 1.), fontsize=16)
 
 
 def type_vs_model(make) :
     model=car[car.Make==make]
-    y = []
     y = np.array(model['Type'].value_counts())
     x=np.array(model['Type'].unique())
     plt.figure(figsize=(6,3))
     percent = 100.*y/y.sum()
-    patches, texts = plt.pie(y,startangle=90, radius=1.3)
+    plt.pie(y,startangle=90, radius=1.3)
     plt.title(make + ' : Composition of different transmission types cars')
         
     labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, percent)]
 
-    plt.legend(patches, labels, loc='best',bbox_to_anchor=(-0.1, 1.), fontsize=16)
+    plt.legend(labels, loc='best',bbox_to_anchor=(0, 1.), fontsize=16)
 
 
 def popular_specification_type_emission_fueltype(make) :
@@ -451,7 +246,7 @@ def popular_specification_type_emission_fueltype(make) :
     df=model[['sale_quantity']]
     df['specification']=model['Type']+" "+model['Emission_Norm']+ " "+model['Fuel_Type']
     df=df.groupby('specification')[['sale_quantity']].sum().sort_values('sale_quantity',ascending=False).head(10)
-    plt.figure(figsize=(12,11.5))
+    plt.figure(figsize=(11,11.5))
     sns.barplot(x=df.sale_quantity, y=df.index)
     plt.title(make + ' : Salewise top popular specification(Transmission, Emission Norm, Fuel)')
     plt.xlabel('Units Sold (in Thousands)');
@@ -461,14 +256,19 @@ def popular_specification_type_emission_fueltype(make) :
 
 
 def popular_specification_mileage_bodytype(make):
-    model=car[car.Make==make]
+    model=car[car.Make==make].copy()
+    
+    condition=model.ARAI_Certified_Mileage.isna()
+    model=model[~condition]
+    model=model.reset_index(drop=True)
+    
     df=model[['sale_quantity']]
     df['mileage']=pd.cut(x=model['ARAI_Certified_Mileage'], bins=[0,12,24,40], labels=['Low Mileage','Medium mileage','High Mileage'])
     df['mileage']=df.mileage.astype(str)
     df['specification']=df['mileage']+" "+model['Body_Type']
     
     df=df.groupby('specification')[['sale_quantity']].sum().sort_values('sale_quantity',ascending=False).head(10)
-    plt.figure(figsize=(12,12))
+    plt.figure(figsize=(11,12))
     sns.set(font_scale=2)
     sns.barplot(x=df.sale_quantity, y=df.index)
     plt.title(make +' : Salewise top popular specifications (Mileage and Car Body Type) ')
